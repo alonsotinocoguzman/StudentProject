@@ -1,6 +1,9 @@
 package impl;
 
+import Mapper.CourseMapper;
 import Model.Course;
+import Model.Dto.CourseDto;
+import Utils.ApiExceptions;
 import impl.Services.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +15,13 @@ import repository.CourseRepository;
 @AllArgsConstructor
 public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
+    private CourseMapper courseMapper;
 
     @Override
-    public Mono<Course> findCourseByCourseId(String courseId) {
-        return courseRepository.findCourseByCourseId(courseId);
+    public Mono<CourseDto> findCourseByCourseId(String courseId) {
+        return courseRepository.findCourseByCourseId(courseId)
+                .switchIfEmpty(Mono.error(ApiExceptions.COURSE_NOT_FOUND.getException()))
+                .map(course -> courseMapper.courseToCourseDto(course));
     }
 
     @Override

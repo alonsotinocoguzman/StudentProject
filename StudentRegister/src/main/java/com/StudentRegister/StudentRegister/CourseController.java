@@ -1,6 +1,7 @@
 package com.StudentRegister.StudentRegister;
 
 import Model.Course;
+import Model.Dto.CourseDto;
 import impl.Services.CourseService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class CourseController implements CourseService {
     CourseService courseService;
 
     @Override
-    public Mono<Course> findCourseByCourseId(String courseId) {
+    public Mono<CourseDto> findCourseByCourseId(String courseId) {
         return courseService.findCourseByCourseId(courseId);
     }
 
